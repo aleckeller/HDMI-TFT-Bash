@@ -1,0 +1,29 @@
+#!/bin/bash
+#Script to pick HDMI output or TFT
+
+echo -n "Enter 1 for HDMI, Enter 2 for TFT > "
+read option
+if [ "$option" = "1" ]; then
+	sudo cp /dev/null /usr/share/X11/xorg.conf.d/99-fbdev.conf
+	sudo sh -c 'echo Section \"Device\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Identifier \"display\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Driver \"fbdev\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Option \"fbdev\" \"/dev/fb0\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo EndSection >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+else
+	sudo cp /dev/null /usr/share/X11/xorg.conf.d/99-fbdev.conf
+	sudo sh -c 'echo Section \"Device\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Identifier \"display\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Driver \"fbdev\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo "  "Option \"fbdev\" \"/dev/fb1\" >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	sudo sh -c 'echo EndSection >> /usr/share/X11/xorg.conf.d/99-fbdev.conf'
+	
+fi
+
+read -p "Do you want to reboot now to apply changes? <Y/n> " prompt
+if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+then
+	sudo reboot
+else
+	exit 0
+fi
